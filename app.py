@@ -5,7 +5,7 @@ import numpy as np
 app = Flask(__name__)
 
 # Load your trained model
-model = joblib.load('rf_model.pkl')
+model = joblib.load('random_forest_model.pkl')
 
 # Define mappings for categorical variables
 gender_mapping = {"Male": 1, "Female": 0}
