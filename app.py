@@ -34,11 +34,11 @@ def predict():
         features = np.array([
             gender_mapping[data['queryResult']['parameters']['Gender']],                  # Gender
             int(data['queryResult']['parameters']['Age']),                               # Age
-            int(data['queryResult']['parameters']['Sleep Duration']),                    # Sleep Duration
-            int(data['queryResult']['parameters']['Physical Activity Level']),           # Physical Activity Level
-            int(data['queryResult']['parameters']['Stress Level']),                      # Stress Level
-            bmi_mapping[data['queryResult']['parameters']['BMI Category']],              # BMI Category
-            int(data['queryResult']['parameters']['Daily Steps']),                       # Daily Steps
+            int(data['queryResult']['parameters']['SleepDuration']),                    # Sleep Duration
+            int(data['queryResult']['parameters']['PhysicalActivityLevel']),           # Physical Activity Level
+            int(data['queryResult']['parameters']['StressLevel']),                      # Stress Level
+            bmi_mapping[data['queryResult']['parameters']['BMICategory']],              # BMI Category
+            int(data['queryResult']['parameters']['DailySteps']),                       # Daily Steps
             sleep_disorder_mapping[data['queryResult']['parameters']['Sleep_Disorder']], # Sleep Disorder
             food_habits_mapping[data['queryResult']['parameters']['Food_Habits']],       # Food Habits
             smoking_status_mapping[data['queryResult']['parameters']['Smoking_Status']]  # Smoking Status
