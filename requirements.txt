@@ -44,6 +44,7 @@ fastjsonschema==2.19.0
 ffmpy==0.4.0
 filelock==3.12.3
 Flask==3.0.3
+flask-cors==3.0.10
 fonttools==4.42.0
 fqdn==1.5.1
 frozenlist==1.4.1
