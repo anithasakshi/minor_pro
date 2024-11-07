@@ -4,7 +4,7 @@ import numpy as np
 from flask_cors import CORS
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, origins=["https://dialogflow.cloud.google.com/"])
 
 # Load your trained model
 model = joblib.load('random_forest_model.pkl')
