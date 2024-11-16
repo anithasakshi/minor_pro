@@ -3,7 +3,7 @@ import joblib
 import numpy as np
 from flask_cors import CORS
 
-app = Flask(_name_)
+app = Flask(__name__)
 CORS(app, origins=["https://dialogflow.cloud.google.com/"])
 
 # Load your trained model
@@ -67,5 +67,5 @@ def predict():
     
     return jsonify(response)
 
-if _name_ == '_main_':
+if __name__ == '_main_':
     app.run(debug=True)
