@@ -2,23 +2,12 @@ from flask import Flask, request, jsonify
 import joblib
 import numpy as np
 from flask_cors import CORS
-import mysql.connector
-from datetime import datetime
-import os
 
-app = Flask(__name__)  # Corrected __name__
-CORS(app)
+app = Flask(_name_)
+CORS(app, origins=["https://dialogflow.cloud.google.com/"])
 
 # Load your trained model
 model = joblib.load('random_forest_model.pkl')
-
-# MySQL Database configuration using environment variables
-db_config = {
-    'host': os.getenv('localhost'),
-    'user': os.getenv('root'),
-    'password': os.getenv('Deepa78*'),
-    'database': os.getenv('healthdata')
-}
 
 # Define mappings for categorical variables
 gender_mapping = {"Male": 1, "Female": 0}
@@ -30,15 +19,13 @@ smoking_status_mapping = {"Non-smoker": 0, "Smoker": 1}
 # Define a mapping for predicted diseases
 disease_mapping = {
     0: "Cardiovascular Disease",
-    1: "Hypertension",
+    1: "Hyper Tension",
     2: "Lung Cancer or Cancer",
     3: "Mental Health Issues",
     4: "Minimal or No Risks",
     5: "No Significant Risks Found"
+    # Add other mappings as per your model's output classes
 }
-
-def connect_db():
-    return mysql.connector.connect(**db_config)
 
 @app.route('/predict', methods=['POST'])
 def predict():
@@ -49,11 +36,11 @@ def predict():
         features = np.array([
             gender_mapping[data['queryResult']['parameters']['Gender']],                  # Gender
             int(data['queryResult']['parameters']['Age']),                               # Age
-            int(data['queryResult']['parameters']['SleepDuration']),                     # Sleep Duration
-            int(data['queryResult']['parameters']['PhysicalActivityLevel']),             # Physical Activity Level
-            int(data['queryResult']['parameters']['StressLevel']),                       # Stress Level
-            bmi_mapping[data['queryResult']['parameters']['BMICategory']],               # BMI Category
-            int(data['queryResult']['parameters']['DailySteps']),                        # Daily Steps
+            int(data['queryResult']['parameters']['SleepDuration']),                    # Sleep Duration
+            int(data['queryResult']['parameters']['PhysicalActivityLevel']),           # Physical Activity Level
+            int(data['queryResult']['parameters']['StressLevel']),                      # Stress Level
+            bmi_mapping[data['queryResult']['parameters']['BMICategory']],              # BMI Category
+            int(data['queryResult']['parameters']['DailySteps']),                       # Daily Steps
             sleep_disorder_mapping[data['queryResult']['parameters']['Sleep_Disorder']], # Sleep Disorder
             food_habits_mapping[data['queryResult']['parameters']['Food_Habits']],       # Food Habits
             smoking_status_mapping[data['queryResult']['parameters']['Smoking_Status']]  # Smoking Status
@@ -68,33 +55,6 @@ def predict():
         # Decode the prediction
         disease_name = disease_mapping.get(prediction[0], "Unknown Disease")
 
-        # Store the input data and prediction in the MySQL database
-        db = connect_db()
-        cursor = db.cursor()
-
-        insert_query = """
-        INSERT INTO UserPredictions (Gender, Age, SleepDuration, PhysicalActivityLevel, StressLevel, BMICategory, DailySteps, Sleep_Disorder, Food_Habits, Smoking_Status, Predicted_Disease, Prediction_Time)
-        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-        """
-        cursor.execute(insert_query, (
-            data['queryResult']['parameters']['Gender'],
-            data['queryResult']['parameters']['Age'],
-            data['queryResult']['parameters']['SleepDuration'],
-            data['queryResult']['parameters']['PhysicalActivityLevel'],
-            data['queryResult']['parameters']['StressLevel'],
-            data['queryResult']['parameters']['BMICategory'],
-            data['queryResult']['parameters']['DailySteps'],
-            data['queryResult']['parameters']['Sleep_Disorder'],
-            data['queryResult']['parameters']['Food_Habits'],
-            data['queryResult']['parameters']['Smoking_Status'],
-            disease_name,
-            datetime.now()
-        ))
-        
-        db.commit()
-        cursor.close()
-        db.close()
-
         # Prepare a response for Dialogflow
         response = {
             'fulfillmentText': f'The predicted disease is: {disease_name}'
@@ -107,5 +67,5 @@ def predict():
     
     return jsonify(response)
 
-if __name__ == '__main__':  # Corrected __name__
+if _name_ == '_main_':
     app.run(debug=True)
