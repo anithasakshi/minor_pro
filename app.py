@@ -57,7 +57,7 @@ def predict():
 
         # Prepare a response for Dialogflow
         response = {
-            'fulfillmentText': f'The predicted disease is: {disease_name}'
+            'fulfillmentText': f'The predicted disease according to your given lifestyle data might be: {disease_name}.'
         }
     
     except KeyError as e:
