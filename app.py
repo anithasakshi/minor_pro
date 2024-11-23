@@ -57,7 +57,7 @@ def predict():
 
         # Prepare a response for Dialogflow
         response = {
-            'fulfillmentText': f'The predicted disease according to your given lifestyle data might be: {disease_name}.'
+            'fulfillmentText': f'Your lifestyle insights suggest a possible risk for {disease_name}, but the good news is that small, simple changes can make a big difference!  If you’d like tips on healthy eating or lifestyle improvements, I’m here to support you. And for a thorough checkup, a visit to your doctor might be helpful.'
         }
     
     except KeyError as e:
